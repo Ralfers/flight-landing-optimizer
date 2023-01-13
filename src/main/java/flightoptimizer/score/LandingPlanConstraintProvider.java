@@ -1,13 +1,10 @@
 package flightoptimizer.score;
 
-import flightoptimizer.domain.Landing;
 import flightoptimizer.domain.Plane;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.score.stream.Constraint;
 import org.optaplanner.core.api.score.stream.ConstraintFactory;
 import org.optaplanner.core.api.score.stream.ConstraintProvider;
-
-import java.util.function.Function;
 
 import static org.optaplanner.core.api.score.stream.Joiners.*;
 
@@ -31,38 +28,32 @@ public class LandingPlanConstraintProvider implements ConstraintProvider {
     // Every plane must land
     private Constraint planeMustLand(ConstraintFactory constraintFactory) {
         return constraintFactory.forEach(Plane.class)
-                .ifNotExists(Landing.class, equal(Function.identity(), Landing::getPlane))
+                .filter(plane -> plane.getRunway() == null || plane.getLandingTime() == null)
                 .penalize(HardSoftScore.ONE_HARD)
                 .asConstraint("Plane must land");
     }
 
     // A plane must land between its earliest and latest landing time
     private Constraint planeTimeBoundMiss(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(Landing.class)
-                .filter(landing -> {
-                    Plane plane = landing.getPlane();
-                    return !isBetween(landing.getLandingTime(), plane.getEarliestLandingTime(), plane.getLatestLandingTime());
-                })
+        return constraintFactory.forEach(Plane.class)
+                .filter(plane -> !isBetween(plane.getLandingTime(), plane.getEarliestLandingTime(), plane.getLatestLandingTime()))
                 .penalize(HardSoftScore.ONE_HARD)
                 .asConstraint("Plane time bound miss");
     }
 
     // A plane must have enough separation time before the next plane lands
     private Constraint notEnoughPlaneSeparationTime(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(Landing.class)
-                .join(Landing.class,
-                        equal(Landing::getRunway),
-                        lessThan(Landing::getLandingTime))
-                .ifNotExists(Landing.class,
-                        equal((a, b) -> a.getRunway(), Landing::getRunway),
-                        lessThan((a, b) -> a.getLandingTime(), Landing::getLandingTime),
-                        greaterThan((a, b) -> b.getLandingTime(), Landing::getLandingTime))
-                .penalize(HardSoftScore.ONE_HARD, (a, b) -> {
-                    Plane firstPlane = a.getPlane();
-                    Plane secondPlane = b.getPlane();
-
-                    int requiredSeparationTime = firstPlane.getSeparationTimes().get(secondPlane.getId() - 1);
-                    int actualSeparationTime = b.getLandingTime() - a.getLandingTime();
+        return constraintFactory.forEach(Plane.class)
+                .join(Plane.class,
+                        equal(Plane::getRunway),
+                        lessThan(Plane::getLandingTime))
+                .ifNotExists(Plane.class,
+                        equal((plane1, plane2) -> plane1.getRunway(), Plane::getRunway),
+                        lessThan((plane1, plane2) -> plane1.getLandingTime(), Plane::getLandingTime),
+                        greaterThan((plane1, plane2) -> plane2.getLandingTime(), Plane::getLandingTime))
+                .penalize(HardSoftScore.ONE_HARD, (plane1, plane2) -> {
+                    int requiredSeparationTime = plane1.getSeparationTimes().get(plane2.getId() - 1);
+                    int actualSeparationTime = plane2.getLandingTime() - plane1.getLandingTime();
 
                     return actualSeparationTime < requiredSeparationTime
                             ? requiredSeparationTime - actualSeparationTime : 0;
@@ -74,31 +65,19 @@ public class LandingPlanConstraintProvider implements ConstraintProvider {
 
     // A plane must land close to the target landing time (if landed within the earliest and latest times)
     private Constraint planeUnderTargetDeviation(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(Landing.class)
-                .filter(landing -> {
-                    Plane plane = landing.getPlane();
-                    return landing.getLandingTime() >= plane.getEarliestLandingTime() &&
-                            landing.getLandingTime() < plane.getTargetLandingTime();
-                })
-                .penalize(HardSoftScore.ONE_SOFT, landing -> {
-                    Plane plane = landing.getPlane();
-                    return plane.getTargetLandingTime() - landing.getLandingTime();
-                })
+        return constraintFactory.forEach(Plane.class)
+                .filter(plane -> plane.getLandingTime() >= plane.getEarliestLandingTime() &&
+                        plane.getLandingTime() < plane.getTargetLandingTime())
+                .penalize(HardSoftScore.ONE_SOFT, plane -> plane.getTargetLandingTime() - plane.getLandingTime())
                 .asConstraint("Plane landing under target deviation");
     }
 
     // A plane must land close to the target landing time (if landed within the earliest and latest times)
     private Constraint planeOverTargetDeviation(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(Landing.class)
-                .filter(landing -> {
-                    Plane plane = landing.getPlane();
-                    return landing.getLandingTime() <= plane.getLatestLandingTime() &&
-                            landing.getLandingTime() > plane.getTargetLandingTime();
-                })
-                .penalize(HardSoftScore.ONE_SOFT, landing -> {
-                    Plane plane = landing.getPlane();
-                    return landing.getLandingTime() - plane.getTargetLandingTime();
-                })
+        return constraintFactory.forEach(Plane.class)
+                .filter(plane -> plane.getLandingTime() <= plane.getLatestLandingTime() &&
+                        plane.getLandingTime() > plane.getTargetLandingTime())
+                .penalize(HardSoftScore.ONE_SOFT, plane -> plane.getLandingTime() - plane.getTargetLandingTime())
                 .asConstraint("Plane landing over target deviation");
     }
 

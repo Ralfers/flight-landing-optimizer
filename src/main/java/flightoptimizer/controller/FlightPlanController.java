@@ -1,15 +1,18 @@
 package flightoptimizer.controller;
 
-import flightoptimizer.domain.Landing;
 import flightoptimizer.domain.LandingPlan;
 import flightoptimizer.domain.Plane;
 import flightoptimizer.domain.Runway;
 import lombok.extern.slf4j.Slf4j;
+import org.optaplanner.core.api.score.ScoreManager;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -19,15 +22,27 @@ public class FlightPlanController {
 
     @Autowired
     private SolverManager<LandingPlan, UUID> solverManager;
+    @Autowired
+    private ScoreManager<LandingPlan, HardSoftScore> scoreManager;
+
+    private final Map<UUID, LandingPlan> solutionMap = new HashMap<>();
 
     @PostMapping("/solve")
     @ResponseBody
-    public LandingPlan solve(@RequestBody LandingPlan problem) throws Exception {
-        UUID id = UUID.randomUUID();
+    public UUID solve(@RequestBody LandingPlan problem) throws Exception {
+        UUID uuid = UUID.randomUUID();
+        solverManager.solveAndListen(uuid, id -> problem, landingPlan -> {
+            log.info("Found a new best solution for problem {} with score: {}", uuid, landingPlan.getScore());
+            solutionMap.put(uuid, landingPlan);
+        });
 
-        printLandingPlan(problem);
+        return uuid;
+    }
 
-        return solverManager.solve(id, problem).getFinalBestSolution();
+    @GetMapping("/solution/{uuid}")
+    @ResponseBody
+    public LandingPlan getCurrentSolution(@PathVariable(value = "uuid") UUID uuid) throws Exception {
+        return solutionMap.get(uuid);
     }
 
     public void printLandingPlan(LandingPlan landingPlan) {

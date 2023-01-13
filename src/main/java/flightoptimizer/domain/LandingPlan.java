@@ -20,28 +20,23 @@ import java.util.List;
 @Setter
 public class LandingPlan {
 
-    @ValueRangeProvider(id = "planeRange")
-    @ProblemFactCollectionProperty
-    private List<Plane> planeList;
-
     @ValueRangeProvider(id = "runwayRange")
     @ProblemFactCollectionProperty
     private List<Runway> runwayList;
 
     @PlanningEntityCollectionProperty
-    private List<Landing> landingList;
+    private List<Plane> planeList;
 
     @PlanningScore
     private HardSoftScore score;
 
-    public LandingPlan(List<Plane> planeList, List<Runway> runwayList, List<Landing> landingList) {
+    public LandingPlan(List<Plane> planeList, List<Runway> runwayList) {
         this.planeList = planeList;
         this.runwayList = runwayList;
-        this.landingList = landingList;
     }
 
-    @ValueRangeProvider(id="landingTimeRange")
-    public CountableValueRange<Integer> getxRange(){
-        return ValueRangeFactory.createIntValueRange(1, 30);
+    @ValueRangeProvider(id = "landingTimeRange")
+    public CountableValueRange<Integer> getLandingTimeRange(){
+        return ValueRangeFactory.createIntValueRange(1, 100000);
     }
 }
