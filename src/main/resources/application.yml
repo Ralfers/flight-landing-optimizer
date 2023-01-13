@@ -1,0 +1,5 @@
+
+optaplanner:
+  solver:
+    termination:
+      spent-limit: 5s
