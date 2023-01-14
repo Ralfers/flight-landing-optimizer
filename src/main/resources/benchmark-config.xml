@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plannerBenchmark xmlns="https://www.optaplanner.org/xsd/benchmark" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://www.optaplanner.org/xsd/benchmark https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
+    <benchmarkDirectory>benchmark-report</benchmarkDirectory>
+
+    <inheritedSolverBenchmark>
+        <solver>
+            <solutionClass>flightoptimizer.domain.LandingPlan</solutionClass>
+            <entityClass>flightoptimizer.domain.Plane</entityClass>
+            <scoreDirectorFactory>
+                <constraintProviderClass>flightoptimizer.score.LandingPlanConstraintProvider</constraintProviderClass>
+                <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
+            </scoreDirectorFactory>
+
+            <termination>
+                <terminationCompositionStyle>OR</terminationCompositionStyle>
+                <unimprovedSecondsSpentLimit>10</unimprovedSecondsSpentLimit>
+                <bestScoreLimit>0hard/0soft</bestScoreLimit>
+            </termination>
+
+            <constructionHeuristic>
+                <constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+                <entitySorterManner>DECREASING_DIFFICULTY_IF_AVAILABLE</entitySorterManner>
+            </constructionHeuristic>
+        </solver>
+        <problemBenchmarks>
+            <solutionFileIOClass>flightoptimizer.domain.LandingPlanSolutionFileIO</solutionFileIOClass>
+            <inputSolutionFile>data/airland1.json</inputSolutionFile>
+            <inputSolutionFile>data/airland2.json</inputSolutionFile>
+            <inputSolutionFile>data/airland3.json</inputSolutionFile>
+            <inputSolutionFile>data/airland4.json</inputSolutionFile>
+            <inputSolutionFile>data/airland5.json</inputSolutionFile>
+<!--            <inputSolutionFile>data/airland6.json</inputSolutionFile>-->
+<!--            <inputSolutionFile>data/airland7.json</inputSolutionFile>-->
+<!--            <inputSolutionFile>data/airland8.json</inputSolutionFile>-->
+<!--            <inputSolutionFile>data/airland9.json</inputSolutionFile>-->
+        </problemBenchmarks>
+    </inheritedSolverBenchmark>
+
+    <solverBenchmark>
+        <name>Tabu Search</name>
+        <solver>
+            <localSearch>
+                <localSearchType>TABU_SEARCH</localSearchType>
+            </localSearch>
+        </solver>
+    </solverBenchmark>
+    <solverBenchmark>
+        <name>Simulated Annealing</name>
+        <solver>
+            <localSearch>
+                <acceptor>
+                    <simulatedAnnealingStartingTemperature>100hard/1000soft</simulatedAnnealingStartingTemperature>
+                </acceptor>
+                <forager>
+                    <acceptedCountLimit>1</acceptedCountLimit>
+                </forager>
+            </localSearch>
+        </solver>
+    </solverBenchmark>
+    <solverBenchmark>
+        <name>Late Acceptance</name>
+        <solver>
+            <localSearch>
+                <localSearchType>LATE_ACCEPTANCE</localSearchType>
+            </localSearch>
+        </solver>
+    </solverBenchmark>
+</plannerBenchmark>

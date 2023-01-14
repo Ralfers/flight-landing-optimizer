@@ -141,7 +141,7 @@ const LandingTimeline = props => {
     }
 
     const getTimeline = runway => {
-        const runwayPlanes = solution.planeList.filter(plane => plane.runway.id === runway.id)
+        const runwayPlanes = solution.planeList.filter(plane => plane.runway?.id === runway.id)
         return <React.Fragment>
             <Form.Label style={labelStyle}>Runway: {runway.id}</Form.Label>
             <Timeline

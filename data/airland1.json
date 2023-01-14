@@ -1,0 +1,218 @@
+{
+    "runwayList": [
+        {"id": 1},
+        {"id": 2}
+    ],
+    "planeList": [
+        {
+            "penaltyForOverTarget": 1000,
+            "earliestLandingTime": 129,
+            "arrivalTime": 54,
+            "separationTimes": [
+                99999,
+                3,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+            ],
+            "penaltyForUnderTarget": 1000,
+            "id": 1,
+            "latestLandingTime": 559,
+            "targetLandingTime": 155
+        },
+        {
+            "penaltyForOverTarget": 1000,
+            "earliestLandingTime": 195,
+            "arrivalTime": 120,
+            "separationTimes": [
+                3,
+                99999,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15,
+                15
+            ],
+            "penaltyForUnderTarget": 1000,
+            "id": 2,
+            "latestLandingTime": 744,
+            "targetLandingTime": 258
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 89,
+            "arrivalTime": 14,
+            "separationTimes": [
+                15,
+                15,
+                99999,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 3,
+            "latestLandingTime": 510,
+            "targetLandingTime": 98
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 96,
+            "arrivalTime": 21,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                99999,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 4,
+            "latestLandingTime": 521,
+            "targetLandingTime": 106
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 110,
+            "arrivalTime": 35,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                99999,
+                8,
+                8,
+                8,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 5,
+            "latestLandingTime": 555,
+            "targetLandingTime": 123
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 120,
+            "arrivalTime": 45,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                8,
+                99999,
+                8,
+                8,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 6,
+            "latestLandingTime": 576,
+            "targetLandingTime": 135
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 124,
+            "arrivalTime": 49,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                8,
+                8,
+                99999,
+                8,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 7,
+            "latestLandingTime": 577,
+            "targetLandingTime": 138
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 126,
+            "arrivalTime": 51,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                8,
+                8,
+                8,
+                99999,
+                8,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 8,
+            "latestLandingTime": 573,
+            "targetLandingTime": 140
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 135,
+            "arrivalTime": 60,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                99999,
+                8
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 9,
+            "latestLandingTime": 591,
+            "targetLandingTime": 150
+        },
+        {
+            "penaltyForOverTarget": 3000,
+            "earliestLandingTime": 160,
+            "arrivalTime": 85,
+            "separationTimes": [
+                15,
+                15,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                8,
+                99999
+            ],
+            "penaltyForUnderTarget": 3000,
+            "id": 10,
+            "latestLandingTime": 657,
+            "targetLandingTime": 180
+        }
+    ]
+}
