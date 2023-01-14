@@ -20,9 +20,7 @@ const Score = (props) => {
 
     return (
         <div style={containerStyle}>
-            <Form.Label style={labelStyle}>Hard score: {score.hardScore}</Form.Label><br/>
-            <Form.Label style={labelStyle}>Soft score: {score.softScore}</Form.Label><br/>
-            <Form.Label style={labelStyle}>Feasible: {score.feasible ? 'true' : 'false'}</Form.Label>
+            <Form.Label style={labelStyle}>Score: {score}</Form.Label><br/>
         </div>
     )
 }

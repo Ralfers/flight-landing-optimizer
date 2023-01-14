@@ -30,10 +30,10 @@
             <inputSolutionFile>data/airland3.json</inputSolutionFile>
             <inputSolutionFile>data/airland4.json</inputSolutionFile>
             <inputSolutionFile>data/airland5.json</inputSolutionFile>
-<!--            <inputSolutionFile>data/airland6.json</inputSolutionFile>-->
-<!--            <inputSolutionFile>data/airland7.json</inputSolutionFile>-->
-<!--            <inputSolutionFile>data/airland8.json</inputSolutionFile>-->
-<!--            <inputSolutionFile>data/airland9.json</inputSolutionFile>-->
+            <!--            <inputSolutionFile>data/airland6.json</inputSolutionFile>-->
+            <!--            <inputSolutionFile>data/airland7.json</inputSolutionFile>-->
+            <!--            <inputSolutionFile>data/airland8.json</inputSolutionFile>-->
+            <!--            <inputSolutionFile>data/airland9.json</inputSolutionFile>-->
         </problemBenchmarks>
     </inheritedSolverBenchmark>
 

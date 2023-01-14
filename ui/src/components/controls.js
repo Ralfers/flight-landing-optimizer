@@ -34,11 +34,11 @@ const Controls = props => {
     }
 
     const onClick = event => {
-        fetch('http://localhost:8080/landing-plan/solution/' + solutionId)
+        fetch('/landing-plan/solution/' + solutionId)
             .then(response => response.json())
             .then(data => setSolution(data))
 
-        fetch('http://localhost:8080/landing-plan/solution/' + solutionId + '/explanation')
+        fetch('/landing-plan/solution/' + solutionId + '/explanation')
             .then(response => response.json())
             .then(data => setSolutionExplanation(data))
     }

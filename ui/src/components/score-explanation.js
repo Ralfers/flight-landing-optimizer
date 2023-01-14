@@ -27,7 +27,7 @@ const ScoreExplanation = (props) => {
         Object.keys(solutionExplanation)
         .filter(planeId => {
             const score = solutionExplanation[planeId].score
-            return score.hardScore < 0 || score.softScore < 0
+            return score.includes('-')
         })
         .forEach(planeId => {
             const planeExplanation = solutionExplanation[planeId]
@@ -36,7 +36,7 @@ const ScoreExplanation = (props) => {
             constraintMatchSet
             .filter(constraintMatch => {
                 const score = constraintMatch.score
-                return score.hardScore < 0 || score.softScore < 0
+                return score.includes('-')
             })
             .forEach(constraintMatch => {
                 const score = constraintMatch.score
@@ -44,8 +44,7 @@ const ScoreExplanation = (props) => {
                 const reason = reasonParts[1] + ' (' + reasonParts[2] + ')'
 
                 const element = <div style={elementContainerStyle}>
-                    <Form.Label style={labelStyle}>Hard score: {score.hardScore}</Form.Label><br/>
-                    <Form.Label style={labelStyle}>Soft score: {score.softScore}</Form.Label><br/>
+                    <Form.Label style={labelStyle}>Score: {score}</Form.Label><br/>
                     <Form.Label style={labelStyle}>Reason: {reason}</Form.Label>
                 </div>
                 components.push(element)

@@ -46,9 +46,6 @@ const LandingTimeline = props => {
             })
         })
 
-        console.log('lanes:')
-        console.log(JSON.stringify(lanes))
-
         return lanes
     }
 
@@ -133,9 +130,6 @@ const LandingTimeline = props => {
                 startTimeMillis: landingTimeStartMillis
             })
         })
-
-        console.log('events:')
-        console.log(JSON.stringify(events))
         
         return events
     }
