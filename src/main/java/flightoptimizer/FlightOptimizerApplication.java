@@ -9,5 +9,4 @@ public class FlightOptimizerApplication {
     public static void main(String[] args) {
         SpringApplication.run(FlightOptimizerApplication.class, args);
     }
-
 }

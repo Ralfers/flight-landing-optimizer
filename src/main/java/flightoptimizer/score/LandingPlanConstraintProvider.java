@@ -15,6 +15,7 @@ public class LandingPlanConstraintProvider implements ConstraintProvider {
         return new Constraint[] {
                 // HARD constraints
                 planeMustLand(constraintFactory),
+                planesCantLandAtTheSameTime(constraintFactory),
                 planeTimeBoundMiss(constraintFactory),
                 notEnoughPlaneSeparationTime(constraintFactory),
                 // SOFT constraints
@@ -27,10 +28,17 @@ public class LandingPlanConstraintProvider implements ConstraintProvider {
 
     // Every plane must land
     private Constraint planeMustLand(ConstraintFactory constraintFactory) {
-        return constraintFactory.forEach(Plane.class)
+        return constraintFactory.forEachIncludingNullVars(Plane.class)
                 .filter(plane -> plane.getRunway() == null || plane.getLandingTime() == null)
                 .penalize(HardSoftScore.ONE_HARD)
                 .asConstraint("Plane must land");
+    }
+
+    // Planes cant land at the same time
+    private Constraint planesCantLandAtTheSameTime(ConstraintFactory constraintFactory) {
+        return constraintFactory.forEachUniquePair(Plane.class, equal(Plane::getLandingTime))
+                .penalize(HardSoftScore.ONE_HARD)
+                .asConstraint("Planes cant land at the same time");
     }
 
     // A plane must land between its earliest and latest landing time

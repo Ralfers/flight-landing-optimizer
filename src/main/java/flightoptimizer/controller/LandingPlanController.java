@@ -6,6 +6,7 @@ import flightoptimizer.domain.Runway;
 import lombok.extern.slf4j.Slf4j;
 import org.optaplanner.core.api.score.ScoreManager;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.core.api.score.constraint.Indictment;
 import org.optaplanner.core.api.solver.SolverManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Controller
 @Slf4j
 @RequestMapping("/landing-plan")
-public class FlightPlanController {
+public class LandingPlanController {
 
     @Autowired
     private SolverManager<LandingPlan, UUID> solverManager;
@@ -41,28 +42,14 @@ public class FlightPlanController {
 
     @GetMapping("/solution/{uuid}")
     @ResponseBody
-    public LandingPlan getCurrentSolution(@PathVariable(value = "uuid") UUID uuid) throws Exception {
+    public LandingPlan getSolution(@PathVariable(value = "uuid") UUID uuid) throws Exception {
         return solutionMap.get(uuid);
     }
 
-    public void printLandingPlan(LandingPlan landingPlan) {
-        log.info("Runway count: {}", landingPlan.getRunwayList().size());
-        log.info("Plane count: {}", landingPlan.getPlaneList().size());
-        for (Runway runway : landingPlan.getRunwayList()) {
-            printRunway(runway);
-        }
-        for (Plane plane : landingPlan.getPlaneList()) {
-            printPlane(plane);
-        }
-    }
-
-    public void printPlane(Plane plane) {
-        log.info("Plane: {} {} {} {} {} {} {} {}", plane.getId(), plane.getArrivalTime(), plane.getEarliestLandingTime(),
-                plane.getLatestLandingTime(), plane.getTargetLandingTime(), plane.getPenaltyForUnderTarget(),
-                plane.getPenaltyForOverTarget(), plane.getSeparationTimes());
-    }
-
-    public void printRunway(Runway runway) {
-        log.info("Runway: {}", runway.getId());
+    @GetMapping("/solution/{uuid}/explanation")
+    @ResponseBody
+    public Map<Object, Indictment<HardSoftScore>> getSolutionExplanation(@PathVariable(value = "uuid") UUID uuid) throws Exception {
+        LandingPlan landingPlan = solutionMap.get(uuid);
+        return scoreManager.explainScore(landingPlan).getIndictmentMap();
     }
 }
