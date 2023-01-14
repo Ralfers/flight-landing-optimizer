@@ -50,6 +50,9 @@ public class LandingPlanController {
     @ResponseBody
     public Map<Object, Indictment<HardSoftScore>> getSolutionExplanation(@PathVariable(value = "uuid") UUID uuid) throws Exception {
         LandingPlan landingPlan = solutionMap.get(uuid);
+        if (landingPlan == null) {
+            return null;
+        }
         return scoreManager.explainScore(landingPlan).getIndictmentMap();
     }
 }

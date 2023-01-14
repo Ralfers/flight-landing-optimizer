@@ -15,12 +15,13 @@ const App = () => {
     const [ solution, setSolution ] = useState({})
     const [ solutionExplanation, setSolutionExplanation ] = useState({})
     const solutionFound = Object.keys(solution).length > 0
+    const solutionExplanationFound = Object.keys(solutionExplanation).length > 0
 
     return (
         <div style={appStyle}>
             <Controls setSolution={setSolution} setSolutionExplanation={setSolutionExplanation} />
             { solutionFound && <Score solution={solution} /> }
-            { solutionFound && <ScoreExplanation solutionExplanation={solutionExplanation} /> }
+            { solutionExplanationFound && <ScoreExplanation solutionExplanation={solutionExplanation} /> }
             { solutionFound && <LandingTimeline solution={solution} /> }
         </div>
     )
